@@ -22,6 +22,9 @@ class OrderItem {
   @JsonKey(defaultValue: "", name: "currency")
   String currency;
 
+   @JsonKey(defaultValue: "", name: "order_product_name")
+  String orderProductName;
+
   @JsonKey(defaultValue: "", name: "user_id")
   String userId;
 
@@ -37,7 +40,7 @@ class OrderItem {
     required this.productId,
     required this.orderId,
     required this.orderStatus,
-  });
+    required this.orderProductName});
 
   factory OrderItem.fromJson(Map<String, dynamic> json) =>
       _$OrderItemFromJson(json);

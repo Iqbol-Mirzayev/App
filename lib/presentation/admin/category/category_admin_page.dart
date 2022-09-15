@@ -26,7 +26,7 @@ class CategoriesAdminPage extends StatelessWidget {
         ],
       ),
       body: StreamBuilder<List<CategoryItem>>(
-        stream: context.read<CategoryViewModel>().getCategories(),
+        stream: context.read<CategoryViewModel>().getCategories(),//   ----------------
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             Center(

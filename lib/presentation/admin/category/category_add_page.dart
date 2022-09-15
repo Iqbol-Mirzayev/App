@@ -18,7 +18,7 @@ class _CategoryAddPageState extends State<CategoryAddPage> {
   final TextEditingController categoryNameController = TextEditingController();
   final TextEditingController categoryDescriptionController =
       TextEditingController();
-  String imageUrl = "https://phoneaqua.com/og/samsung.jpg";
+  String imageUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQCOMUy2yraqtX914uSr6r2owJ3C48jFysRQ&usqp=CAUx`";
 
   @override
   Widget build(BuildContext context) {

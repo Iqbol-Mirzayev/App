@@ -15,6 +15,7 @@ OrderItem _$OrderItemFromJson(Map<String, dynamic> json) => OrderItem(
       productId: json['product_id'] as String? ?? '',
       orderId: json['order_id'] as String? ?? '',
       orderStatus: json['order_status'] as String? ?? '',
+       orderProductName: json['order_product_name'] as String? ?? '',
     );
 
 Map<String, dynamic> _$OrderItemToJson(OrderItem instance) => <String, dynamic>{
@@ -25,5 +26,6 @@ Map<String, dynamic> _$OrderItemToJson(OrderItem instance) => <String, dynamic>{
       'order_status': instance.orderStatus,
       'currency': instance.currency,
       'user_id': instance.userId,
+      'order_product_name': instance.orderProductName,
       'created_at': instance.createdAt.toIso8601String(),
     };

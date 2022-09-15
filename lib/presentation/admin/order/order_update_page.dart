@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:shopping/data/models/order/order_item.dart';
+import 'package:shopping/data/models/products/product_item.dart';
 import 'package:shopping/utils/my_utils.dart';
 
 class OrderViewModel {
@@ -10,28 +11,78 @@ class OrderViewModel {
   OrderViewModel({required FirebaseFirestore fireStore})
       : _fireStore = fireStore;
 
-  Future<void> addOrder({
-    required BuildContext context,
-    required OrderItem orderItem,
-  }) async {
+  Future<void> addOrder(
+      {required BuildContext context,
+      required OrderItem orderItem,
+      required int allProductsCount}) async {
     try {
-      await _fireStore.collection("orders").doc().set(orderItem.toJson());
-      MyUtils.showSnackBar(context, "Muvaffaqiyatli qo'shildi");
+      var newOrder =
+          await _fireStore.collection("orders").add(orderItem.toJson());
+      await _fireStore.collection("orders").doc(newOrder.id).update({
+        "order_id": newOrder.id,
+      });
+      await _fireStore.collection("products").doc(orderItem.productId).update({
+        "count": allProductsCount - orderItem.count,
+      });
+
+      MyUtils.getMyToast(message: "Muvaffaqiyatli qo'shildi");
     } on FirebaseException catch (e) {
       MyUtils.showSnackBar(context, e.message);
     }
   }
 
-  Future<void> updateOrder(
-      {required BuildContext context,
-      required OrderItem orderItem,
-      required String docId}) async {
+  Future<void> updateOrder({
+    required BuildContext context,
+    required OrderItem orderItem,
+    required String docId,
+  }) async {
     try {
       await _fireStore
           .collection("orders")
           .doc(docId)
           .update(orderItem.toJson());
-      MyUtils.showSnackBar(context, "Muvaffaqiyatli update bo'ldi");
+      MyUtils.getMyToast(message: "Muvaffaqiyatli update bo'ldi");
+    } on FirebaseException catch (e) {
+      MyUtils.showSnackBar(context, e.message);
+    }
+  }
+
+  Future<void> updateOrderStatus({
+    required String status,
+    required String docId,
+  }) async {
+    try {
+      await _fireStore
+          .collection("orders")
+          .doc(docId)
+          .update({"order_status": status});
+      MyUtils.getMyToast(message: "Status muvaffaqiyatli update bo'ldi");
+    } on FirebaseException catch (e) {
+      MyUtils.getMyToast(message:  e.message.toString());
+    }
+  }
+
+  Future<void> cancelOrder({
+    required BuildContext context,
+    required OrderItem orderItem,
+  }) async {
+    try {
+      //1
+      await _fireStore.collection("orders").doc(orderItem.orderId).delete();
+      //2
+      var pr = await _fireStore
+          .collection("products")
+          .doc(orderItem.productId)
+          .get();
+
+      ProductItem productItem =
+          ProductItem.fromJson(pr.data() as Map<String, dynamic>);
+      //3
+      await _fireStore.collection("products").doc(orderItem.productId).update({
+        "count": productItem.count + orderItem.count,
+      });
+
+      MyUtils.getMyToast(message: "Muvaffaqiyatli cancel bo'ldi");
     } on FirebaseException catch (e) {
       MyUtils.showSnackBar(context, e.message);
     }
@@ -43,7 +94,7 @@ class OrderViewModel {
   }) async {
     try {
       await _fireStore.collection("orders").doc(docId).delete();
-      MyUtils.showSnackBar(context, "Muvaffaqiyatli o'chirildi");
+      MyUtils.getMyToast(message: "Muvaffaqiyatli o'chirildi");
     } on FirebaseException catch (e) {
       MyUtils.showSnackBar(context, e.message);
     }
