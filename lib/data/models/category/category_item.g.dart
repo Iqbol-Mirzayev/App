@@ -10,7 +10,7 @@ CategoryItem _$CategoryItemFromJson(Map<String, dynamic> json) => CategoryItem(
       imageUrl: json['image_url'] as String? ?? '',
       createdAt: DateTime.parse(json['created_at'] as String),
       categoryName: json['category_name'] as String? ?? '',
-      categoryId: json['category_id'] as String? ?? '',
+      categoryId: json['category_id'] as String? ?? "",
       description: json['description'] as String? ?? '',
     );
 

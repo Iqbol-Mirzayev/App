@@ -1,11 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shopping/data/models/category/category_item.dart';
 import 'package:shopping/data/models/category/update_arguments.dart';
-import 'package:shopping/utils/constants.dart';
 import 'package:shopping/view_models/category_view_model.dart';
-
+import '../../../data/models/category/category_item.dart';
+import '../../../utils/constants.dart';
 import 'widgets/category_item_admin.dart';
 
 class CategoriesAdminPage extends StatelessWidget {
@@ -26,12 +25,10 @@ class CategoriesAdminPage extends StatelessWidget {
         ],
       ),
       body: StreamBuilder<List<CategoryItem>>(
-        stream: context.read<CategoryViewModel>().getCategories(),//   ----------------
+        stream: context.read<CategoryViewModel>().getCategories(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
-            Center(
-              child: Text(snapshot.error.toString()),
-            );
+            return Center(child: Text(snapshot.error.toString()));
           } else if (snapshot.hasData) {
             final categories = snapshot.data!;
             return categories.isNotEmpty
@@ -57,9 +54,7 @@ class CategoriesAdminPage extends StatelessWidget {
                       ),
                     ),
                   )
-                : const Center(
-                    child: Text("List Empty"),
-                  );
+                : const Center(child: Text("List Empty"));
           }
           return const Center(child: CircularProgressIndicator());
         },

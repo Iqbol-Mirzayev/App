@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "210288316827",
-    "project_id": "shopping-540fa",
-    "storage_bucket": "shopping-540fa.appspot.com"
+    "project_number": "403363769051",
+    "project_id": "shop-4a670",
+    "storage_bucket": "shop-4a670.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:210288316827:android:bddb9cb26b1839ea28513e",
+        "mobilesdk_app_id": "1:403363769051:android:2bd61926ff577cfd5c3afe",
         "android_client_info": {
-          "package_name": "com.Iqboljon.shop"
+          "package_name": "com.magazine.shop"
         }
       },
       "oauth_client": [
         {
-          "client_id": "210288316827-hq1f2raum405sqt8410ip82j6scec4qv.apps.googleusercontent.com",
+          "client_id": "403363769051-sogaiufht81rvv3ef64d1pop7m28boch.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyChCSs_wCT1RmFHTIW2rzW2eHTRZgrJLt8"
+          "current_key": "AIzaSyCbpjVbmzd0ZxPtuNgmJgxOf0hX7qjyS2w"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "210288316827-hq1f2raum405sqt8410ip82j6scec4qv.apps.googleusercontent.com",
+              "client_id": "403363769051-sogaiufht81rvv3ef64d1pop7m28boch.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

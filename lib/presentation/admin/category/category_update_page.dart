@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shopping/data/models/category/category_item.dart';
-import 'package:shopping/data/models/category/update_arguments.dart';
 import 'package:shopping/presentation/widgets/my_custom_button.dart';
-import 'package:shopping/presentation/widgets/universal_text_input.dart';
-import 'package:shopping/utils/my_utils.dart';
-import 'package:shopping/view_models/category_view_model.dart';
+import '../../../data/models/category/category_item.dart';
+import '../../../data/models/category/update_arguments.dart';
+import '../../../utils/my_utils.dart';
+import '../../../view_models/category_view_model.dart';
+import '../../widgets/universal_text_input.dart';
 
 class CategoryUpdatePage extends StatefulWidget {
   const CategoryUpdatePage({Key? key, required this.updateCategoryArgs})

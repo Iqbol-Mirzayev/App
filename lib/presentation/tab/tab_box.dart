@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shopping/presentation/profile/profile_page.dart';
 import 'package:shopping/utils/constants.dart';
+import 'account/sub_screens/profile/profile_page.dart';
 import 'categories/categories_page.dart';
 import 'products/products_page.dart';
 import 'user_card/user_card_page.dart';

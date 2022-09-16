@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:shopping/data/models/category/category_item.dart';
-import 'package:shopping/utils/my_utils.dart';
+import '../data/models/category/category_item.dart';
+import '../utils/my_utils.dart';
 
 class CategoryViewModel {
   final FirebaseFirestore _fireStore;

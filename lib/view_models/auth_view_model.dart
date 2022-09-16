@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
@@ -20,8 +21,9 @@ class AuthViewModel {
         email: email,
         password: password,
       );
+      await StorageRepository.putString("auth_state", "registered");
     } on FirebaseAuthException catch (e) {
-      MyUtils.showSnackBar(context, e.message);
+      MyUtils.getMyToast(message: e.message.toString());
     }
   }
 
@@ -34,24 +36,31 @@ class AuthViewModel {
         email: email,
         password: password,
       );
+      await StorageRepository.putString("auth_state", "logged");
     } on FirebaseAuthException catch (e) {
-      MyUtils.showSnackBar(context, e.message);
+      MyUtils.getMyToast(message: e.message.toString());
     }
   }
 
   Future<void> signOut(BuildContext context) async {
     try {
       await _auth.signOut();
+      await StorageRepository.putString("auth_state", "");
     } on FirebaseAuthException catch (e) {
-      MyUtils.showSnackBar(context, e.message);
+      MyUtils.getMyToast(message: e.message.toString());
     }
   }
 
   Future<void> deleteAccount(BuildContext context) async {
     try {
       await _auth.currentUser!.delete();
+      await StorageRepository.putString("auth_state", "");
+
+      FirebaseFirestore.instance
+          .collection("orders")
+          .where("user_id", isEqualTo: _auth.currentUser!.uid);
     } on FirebaseAuthException catch (e) {
-      MyUtils.showSnackBar(context, e.message);
+      MyUtils.getMyToast(message: e.message.toString());
     }
   }
 
@@ -62,7 +71,7 @@ class AuthViewModel {
     try {
       await _auth.currentUser!.updateDisplayName(displayName);
     } on FirebaseAuthException catch (e) {
-      MyUtils.showSnackBar(context, e.message);
+      MyUtils.getMyToast(message: e.message.toString());
     }
   }
 
@@ -73,7 +82,7 @@ class AuthViewModel {
     try {
       await _auth.currentUser!.updateEmail(email);
     } on FirebaseAuthException catch (e) {
-      MyUtils.showSnackBar(context, e.message);
+      MyUtils.getMyToast(message: e.message.toString());
     }
   }
 
@@ -84,11 +93,11 @@ class AuthViewModel {
     try {
       await _auth.currentUser!.updatePassword(password);
     } on FirebaseAuthException catch (e) {
-      MyUtils.showSnackBar(context, e.message);
+      MyUtils.getMyToast(message: e.message.toString());
     }
   }
 
-  //User get user => _auth.currentUser!;
+  User get user => _auth.currentUser!;
 
   Stream<User?> authState() async* {
     yield* FirebaseAuth.instance.authStateChanges();

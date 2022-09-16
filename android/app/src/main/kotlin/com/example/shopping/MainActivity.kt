@@ -1,4 +1,4 @@
-package com.Iqboljon.shop
+package com.magazine.shop
 
 import io.flutter.embedding.android.FlutterActivity
 

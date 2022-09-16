@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../utils/ui_needs/color.dart';
+import '../../utils/ui_needs/style.dart';
 
 class MyCustomButton extends StatelessWidget {
   const MyCustomButton({
@@ -21,7 +22,7 @@ class MyCustomButton extends StatelessWidget {
         onPressed: onTap,
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all(
-            Colors.blueAccent,
+            MyColors.C_0001FC,
           ),
           foregroundColor: MaterialStateProperty.all(Colors.white),
           padding: MaterialStateProperty.all(
@@ -37,7 +38,10 @@ class MyCustomButton extends StatelessWidget {
         ),
         child: Text(
           text,
-          style: const TextStyle(fontSize: 16),
+          style: MyTextStyle.sfProRegular.copyWith(
+            fontSize: 16,
+            color: MyColors.white,
+          ),
         ),
       ),
     );

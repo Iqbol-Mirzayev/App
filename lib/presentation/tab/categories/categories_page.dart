@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:shopping/data/models/category/category_item.dart';
-import 'package:shopping/utils/constants.dart';
-import 'package:shopping/view_models/category_view_model.dart';
 
+import '../../../data/models/category/category_item.dart';
+import '../../../view_models/category_view_model.dart';
 import 'widgets/category_item_view.dart';
 
 class CategoriesPage extends StatefulWidget {
@@ -18,24 +16,9 @@ class _CategoriesPageState extends State<CategoriesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        systemOverlayStyle: const SystemUiOverlayStyle(
-            statusBarColor: Colors.transparent,
-            statusBarBrightness: Brightness.light,
-            statusBarIconBrightness: Brightness.dark,
-          ),
-        title: const Text("Categories Page"),
-        // actions: [
-        //   // IconButton(
-        //   //   onPressed: () {
-        //   //     Navigator.pushNamed(context, profilePage);
-        //   //   },
-        //   //   icon: const Icon(
-        //   //     Icons.person,
-        //   //     color: Colors.white,
-        //   //   ),
-        //   // )
-        // ],
+      backgroundColor: MyColors.white,
+      appBar: const FlatAppBarText(
+        title: "Categories",
       ),
       body: StreamBuilder<List<CategoryItem>>(
         stream: context.read<CategoryViewModel>().getCategories(),
@@ -47,15 +30,22 @@ class _CategoriesPageState extends State<CategoriesPage> {
           } else if (snapshot.hasData) {
             final categories = snapshot.data!;
             return ListView(
+              physics: const BouncingScrollPhysics(),
               children: categories
-                  .map((category) => CategoryItemView(categoryItem: category))
+                  .map((category) => CategoryItemView(
+                      onTap: () {
+                        Navigator.pushNamed(
+                          context,
+                          categoryProductsPage,
+                          arguments: category,
+                        );
+                      },
+                      categoryItem: category))
                   .toList(),
             );
           }
           return const Center(
             child: CircularProgressIndicator(),
-            
-            
           );
         },
       ),

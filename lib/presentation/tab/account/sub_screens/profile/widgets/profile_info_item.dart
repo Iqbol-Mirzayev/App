@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:shopping/utils/ui_needs/color.dart';
+import 'package:shopping/utils/ui_needs/style.dart';
+
 
 class ProfileInfoItem extends StatelessWidget {
   const ProfileInfoItem(
@@ -25,7 +28,7 @@ class ProfileInfoItem extends StatelessWidget {
             BoxShadow(
               blurRadius: 8,
               color: Colors.grey.shade400,
-              offset: Offset(3, 4),
+              offset: const Offset(3, 4),
               spreadRadius: 5,
             )
           ]),
@@ -35,13 +38,9 @@ class ProfileInfoItem extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    color: Colors.blue,
-                    fontSize: 14,
-                  ),
-                ),
+                Text(title,
+                    style: MyTextStyle.sfProRegular
+                        .copyWith(color: MyColors.C_0001FC, fontSize: 16)),
                 const SizedBox(
                   height: 4,
                 ),
@@ -59,7 +58,7 @@ class ProfileInfoItem extends StatelessWidget {
               onPressed: onEditTap,
               icon: const Icon(
                 Icons.edit,
-                color: Colors.blue,
+                color: MyColors.C_0001FC,
                 size: 24,
               ))
         ],

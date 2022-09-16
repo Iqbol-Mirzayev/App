@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:shopping/data/models/category/category_item.dart';
 import 'package:shopping/presentation/widgets/my_custom_button.dart';
-import 'package:shopping/presentation/widgets/universal_text_input.dart';
-import 'package:shopping/utils/my_utils.dart';
-import 'package:shopping/view_models/category_view_model.dart';
+import '../../../utils/my_utils.dart';
+import '../../../view_models/category_view_model.dart';
+import '../../../view_models/file_view_model.dart';
+import '../../widgets/universal_text_input.dart';
 
 class CategoryAddPage extends StatefulWidget {
-  const CategoryAddPage({Key? key,})
-      : super(key: key);
+  const CategoryAddPage({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<CategoryAddPage> createState() => _CategoryAddPageState();
@@ -16,9 +19,11 @@ class CategoryAddPage extends StatefulWidget {
 
 class _CategoryAddPageState extends State<CategoryAddPage> {
   final TextEditingController categoryNameController = TextEditingController();
-  final TextEditingController categoryDescriptionController =
-      TextEditingController();
-  String imageUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQCOMUy2yraqtX914uSr6r2owJ3C48jFysRQ&usqp=CAUx`";
+  final TextEditingController categoryDescriptionController = TextEditingController();
+  String imageUrl = "https://phoneaqua.com/og/samsung.jpg";
+
+  final ImagePicker _picker = ImagePicker();
+  XFile? image;
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +63,7 @@ class _CategoryAddPageState extends State<CategoryAddPage> {
               style: TextButton.styleFrom(
                 backgroundColor: Colors.green,
               ),
-              onPressed: () {},
+              onPressed: () => selectImageDialog(context),
               child: const Text(
                 "Upload category Image",
                 style: TextStyle(
@@ -98,6 +103,90 @@ class _CategoryAddPageState extends State<CategoryAddPage> {
           ],
         ),
       ),
+    );
+  }
+
+  Future<void> _getFromGallery() async {
+    final selectedImage = await _picker.pickImage(
+      maxWidth: 720,
+      maxHeight: 720,
+      source: ImageSource.gallery,
+    );
+
+    image = selectedImage;
+    imageUrl = await context.read<FileViewModel>().uploadImage(image!, context);
+    setState(() {});
+  }
+
+  Future<void> _getFromCamera() async {
+    final selectedImage = await _picker.pickImage(
+      maxWidth: 720,
+      maxHeight: 720,
+      source: ImageSource.camera,
+    );
+    image = selectedImage;
+    imageUrl = await context.read<FileViewModel>().uploadImage(image!, context);
+    setState(() {});
+  }
+
+  void selectImageDialog(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(16),
+          topLeft: Radius.circular(16),
+        ),
+      ),
+      backgroundColor: Colors.white,
+      builder: (BuildContext bc) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return Container(
+              color: Colors.white,
+              padding: const EdgeInsets.all(16),
+              height: 150, //MediaQuery.of(context).size.height * 0.6,
+              child: Column(
+                children: [
+                  ListTile(
+                    leading: const Icon(Icons.photo_library),
+                    title: const Text(
+                      'Gallery',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                      ),
+                    ),
+                    onTap: () async {
+                      await _getFromGallery().then((value) {
+                        Navigator.of(context).pop();
+                      });
+                    },
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.photo_camera),
+                    title: const Text(
+                      'Camera',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                      ),
+                    ),
+                    onTap: () async {
+                      await _getFromCamera().then(
+                        (value) {
+                          Navigator.of(context).pop();
+                        },
+                      );
+                    },
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }

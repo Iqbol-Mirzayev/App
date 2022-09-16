@@ -38,21 +38,21 @@ class ProductsAdminPage extends StatelessWidget {
                       products.length,
                       (index) => ProductItemAdmin(
                           onDeleteTap: () {
-                            // context.read<ProductViewModel>().deleteCategory(
-                            //       context: context,
-                            //       docId: categories[index].categoryId,
-                            //     );
+                            context.read<ProductViewModel>().deleteProduct(
+                                  context: context,
+                                  docId: products[index].productId,
+                                );
                           },
                           productItem: products[index],
                           onUpdateTap: () {
-                            // => Navigator.pushNamed(
+                            // Navigator.pushNamed(
                             //   context,
                             //   updateCategory,
-                            //   arguments: UpdateCategoryArgs(
+                            //   arguments: Updatep(
                             //     categoryItem: categories[index],
-                            //     docId: categories[index].categoryId,
+                            //     docId: products[index].categoryId,
                             //   ),
-                            // ),
+                            // );
                           }),
                     ),
                   )
